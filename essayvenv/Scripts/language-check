@@ -1,0 +1,6 @@
+#!d:\python projects\essay_grading\essayvenv\scripts\python.exe
+
+import sys
+
+from language_check import main
+sys.exit(main.main())

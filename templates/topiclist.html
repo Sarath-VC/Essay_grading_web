@@ -1,0 +1,20 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for topic in topics %}
+            <tr>
+                <td>{{ topic.topic_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

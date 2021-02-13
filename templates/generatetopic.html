@@ -1,0 +1,12 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+    <h1>Upload your Essay...</h1> <br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Topic</button>
+    </form>
+
+{% endblock %}

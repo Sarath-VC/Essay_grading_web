@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Welcome</h1>
-<button type="submit"  onclick="location.href='{% url 'uploadfile' %}'">Upload Essays</button>
+{% extends 'Base.html' %}
 
+{% block content %}
 
-</body>
-</html>
+    <h1>Welcome...</h1> <br>
+    <button type="submit"  onclick="location.href='{% url 'upload_essay' %}'">Upload Essay</button>
+    <button type="submit"  onclick="location.href='{% url 'essay_list' %}'">Essays</button>
+    <button type="submit"  onclick="location.href='{% url 'generate_topic' %}'">Create Topic</button>
+    <button type="submit"  onclick="location.href='{% url 'topic_list' %}'">Topics</button>
+    <button type="submit"  onclick="location.href='{% url 'generate_bow' %}'">Create BOW</button>
+    <button type="submit"  onclick="location.href='{% url 'bow_list' %}'">BOWs</button>
+
+{% endblock %}

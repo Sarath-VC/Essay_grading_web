@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body bgcolor="cyan">
+<button type="submit" onclick="location.href = '{% url 'index' %}' ">Home page</button>
+{% block content %}
+
+
+{% endblock %}
+
+</body>
+</html>

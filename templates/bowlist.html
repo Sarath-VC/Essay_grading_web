@@ -1,0 +1,24 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Word</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bow in bows %}
+            <tr>
+                <td>{{ bow.topic }}</td>
+                <td>{{ bow.word }}</td>
+                <td>{{ bow.priority }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h2>Essay List</h2>
-</body>
-</html>
+{% extends 'Base.html' %}
+
+{% block content %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Topic</th>
+                    <th>Essay</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for essay in essays %}
+                <tr>
+                    <td>{{ essay.title }}</td>
+                    <td>{{ essay.author }}</td>
+                    <td>{{ essay.topic }}</td>
+                    <td><a href="{{ essay.pdf.url }}" class="btn" target="_blank">View</a> </td>
+                    {% if essay.evaluated %}
+                    <td>Evaluated</td>
+                    {% else %}
+                    <td><form method="post"> {% csrf_token %}  <button type="submit" value="{{ essay.id }}" name="btneval">Evaluate</button>  </form></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}
