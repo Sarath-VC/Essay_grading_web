@@ -23,8 +23,8 @@ class Report(models.Model):
     essay = models.ForeignKey(Essays, on_delete=models.CASCADE)
     report = models.FileField(upload_to='Essays/Report/')
 
-    def __str__(self):
-        return self.essay
+    # def __str__(self):
+    #     return self.report
 
 class Bow(models.Model):
     BEST = 'B'

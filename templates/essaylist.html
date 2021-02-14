@@ -18,9 +18,13 @@
                     <td>{{ essay.title }}</td>
                     <td>{{ essay.author }}</td>
                     <td>{{ essay.topic }}</td>
-                    <td><a href="{{ essay.pdf.url }}" class="btn" target="_blank">View</a> </td>
+                    <td><a href="{{ essay.pdf.url }}" target="_blank"><button>View Essay</button></a> </td>
                     {% if essay.evaluated %}
-                    <td>Evaluated</td>
+                        {% for report in reports %}
+                            {% if report.essay.id == essay.id %}
+                                <td><a href="{{ report.report.url }}" class="btn" target="_blank"><button>View Report</button></a> </td>
+                            {% endif %}
+                        {% endfor %}
                     {% else %}
                     <td><form method="post"> {% csrf_token %}  <button type="submit" value="{{ essay.id }}" name="btneval">Evaluate</button>  </form></td>
                     {% endif %}

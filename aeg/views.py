@@ -1,10 +1,12 @@
 import os
 
+
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from .forms import EssayupForm, TopicForm, BowForm
 from .models import Essays, Topics, Bow, Report
 from .aegmodel import stopword, tfidf, grammarcheck
+from django.core.files import File
 from fpdf import FPDF
 # Create your views here.
 def index(request):
@@ -21,8 +23,10 @@ def essay_list(request):
     if request.method == 'POST':
         val1 = int(request.POST['btneval'])
         evaluate(val1)
-    essays = Essays.objects.all()
-    return render(request, 'essaylist.html', {'essays': essays})
+    essays = Essays.objects.all().order_by('topic')
+    reports=Report.objects.all()
+    context={'essays': essays,'reports':reports }
+    return render(request, 'essaylist.html', context)
 def upload_essay(request):
     if request.method == 'POST':
         form = EssayupForm(request.POST, request.FILES)
@@ -81,12 +85,16 @@ def evaluate(ids):
     coss = tfidf(rev, voc)
     gramdict = grammarcheck(pdffile)
     nam = pdffile.name
-    stat=pdfcreater(nam,coss,gramdict,tite,ids)
+    idss = ids
+    # print(idss)
+    stat=pdfcreater(nam,coss,gramdict,tite,idss)
     if stat:
         objessay.evaluated=True
         objessay.save(update_fields=['evaluated'])
 
-def pdfcreater(nam,coss,gramdict,tite,ids):
+def pdfcreater(nam,coss,gramdict,tite,idss):
+    print('here')
+    print(idss)
     pdf = FPDF()
     tot=0
     # Add a page
@@ -141,11 +149,15 @@ def pdfcreater(nam,coss,gramdict,tite,ids):
         del path
     else:
         pass
-    pdfobj = Report.objects.all()
-    pdfobj.essay = ids
-    pdf.output("media/Essays/Report/" + str(tite) + "/" + wnew[2])
-    filepdf=os.path.join('media/Essays/Report/' + str(tite) + '/' + wnew[2])
-    pdfobj.report=filepdf
+
+    pdf.output("media/Essays/Report/" + str(tite) + "/" + wnew[2]+".pdf")
+    # fil=open("media/Essays/Report/" +str(tite) + "/" + wnew[2]+".pdf",encoding='utf-8')
+    # filepdf = File(fil)
+    # print(filepdf)
+    pdfobj = Report(essay=Essays.objects.get(id=idss),report="Essays/Report/" + str(tite) + "/" + wnew[2]+".pdf")
+    # pdfobj.report.save(wnew[2]+".pdf",filepdf)
+    pdfobj.save()
+    # pdfobj.report=filepdf
     pdf.close()
     del pdf
     os.remove("media/Essays/Report/" + wnew[2] + ".txt")
